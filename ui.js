@@ -38,6 +38,10 @@ const json = array.map(toDict)
 const pbuf = array.map(nrs => P.encode({nrs}))
 const pbufz = array.map(nrs => P.encodeZ({nrs}))
 
+const zlib = require('zlib')
+const buf = array.map(Buffer.from)
+const bufz = buf.map(zlib.deflateSync)
+
 const graph = json.map(D.graph)
 const mermaid = graph.map(mkMermaid)
 
@@ -85,6 +89,20 @@ var UI = {
     view: (vnode) => {
         let isBetter = array().length < (2 * graph().length)
         return m('.ui', [
+            m('.opstack', [
+                m('h4', 'Operator Stack'),
+                m('p', [
+                    prop('width', json().w),
+                    prop('height', D.height(json())),
+                    prop('cells', json().ops.length),
+                    prop('alphabet', D.k(json()))
+                ]),
+                m(Opstack, {d: json()})
+            ]),
+            m('.graph', [
+                m('h4', 'Directed Graph'),
+                m(Graph, {dot: mermaid()})
+            ]),
             m('.yaml',[
                 m('h4', 'Encoding'),
                 m('i', 'Press set or generate a graph'),
@@ -94,33 +112,7 @@ var UI = {
                     m('button', {onclick: randomDAG(4)}, 'Small'),
                     m('button', {onclick: randomDAG(9)}, 'Big'),
                 ]),
-                m('.split', [
-                    m('p', [
-                        prop('width', json().w),
-                        prop('height', D.height(json())),
-                        prop('cells', json().ops.length),        
-                    ]),
-                    m('.opstack', [
-                        m('h4', 'Operator Stack'),
-                        m(Opstack, {d: json()})
-                    ])
-                ]),
                 m(Textarea),
-            ]),
-            m('.protobuf',[
-                m('h4', 'Protobuf'),
-                prop('uncompressed', pbuf().length),
-                m('pre.pbuf', pbuf().toString('hex')),
-                prop('compressed', pbufz().length),
-                m('pre.pbuf.z', pbufz().toString('hex')),
-            ]),
-            m('.yaml',[
-                m('h4', 'YAML'),
-                m('pre.encoded', Y.safeDump(json()))
-            ]),
-            m('.mermaid', [
-                m('h4', 'Mermaid'),
-                m('pre.mermaid', mermaid()),
             ]),
             m('.properties', [
                 m('h4', 'Properties'),
@@ -132,12 +124,30 @@ var UI = {
                 m('p', [
                     prop('numbers', array().length),
                     prop('edges', graph().length),
-                    prop('edgebytes', graph().length * 2)
+                    prop('edgebytes', graph().length * 2),
+                    prop('uncompressed', buf().length),
+                    prop('compressed', bufz().length)
                 ])
             ]),
-            m('.graph', [
-                m('h4', 'Graphviz'),
-                m(Graph, {dot: mermaid()})
+            m('.protobuf',[
+                m('h4', 'Protobuf'),
+                prop('uncompressed', pbuf().length),
+                m('pre.pbuf', pbuf().toString('hex')),
+                prop('compressed', pbufz().length),
+                m('pre.pbuf.z', pbufz().toString('hex')),
+                m('h4', 'Bytes'),
+                prop('uncompressed', buf().length),
+                m('pre.buf', buf().toString('hex')),
+                prop('compressed', bufz().length),
+                m('pre.buf.z', bufz().toString('hex')),
+            ]),
+            m('.yaml',[
+                m('h4', 'YAML'),
+                m('pre.encoded', Y.safeDump(json()))
+            ]),
+            m('.mermaid', [
+                m('h4', 'Mermaid'),
+                m('pre.mermaid', mermaid()),
             ]),
         ])
     }
