@@ -63,9 +63,9 @@ const prop = (label, val) => m('p', [m('span',`${label}: `), m('b', val)])
 const randomRow = (w) => R.join('', R.map(() => Math.floor(Math.random() * 9) + 1, R.range(0,w)))
 const randomGrid = (w,h) => R.join('\n', R.map(() => randomRow(w), R.range(0, h)))
 
-const randomDAG = () => {
-    let w = Math.floor(Math.random() * 9) + 1
-    let h = Math.floor(Math.random() * 9) + 2
+const randomDAG = (k) => () => {
+    let w = Math.floor(Math.random() * k) + 1
+    let h = Math.floor(Math.random() * k) + 2
     let nrs = `${w}\n${randomGrid(w,h)}`
     numbers(nrs)
     console.log(w, h, nrs)
@@ -77,7 +77,13 @@ var UI = {
         return m('.ui', [
             m('.yaml',[
                 m('h4', 'Encoding'),
-                m('button', {onclick: randomDAG}, 'Generate random graph'),
+                m('i', 'Press set or generate a graph'),
+                m('p', [
+                    m('button', {onclick: () => numbers(initNumbers)}, 'Initial'),
+                    m('button', {onclick: () => numbers('3\n123\n444')}, 'Simple'),
+                    m('button', {onclick: randomDAG(4)}, 'Small'),
+                    m('button', {onclick: randomDAG(9)}, 'Big'),
+                ]),
                 prop('width', json().w),
                 prop('height', D.height(json())),
                 prop('cells', json().ops.length),
@@ -100,11 +106,16 @@ var UI = {
             ]),
             m('.properties', [
                 m('h4', 'Properties'),
-                m('.is-better', {class: isBetter ? 'better' : 'worse'}, isBetter ? 'numbers' : 'edgebytes'),
-                m('i', 'encoding sizes, in bytes:'),
-                prop('numbers', array().length),
-                prop('edges', graph().length),
-                prop('edgebytes', graph().length * 2)
+                m('p', [
+                    m('i', 'More efficient:'),
+                    m('.is-better', {class: isBetter ? 'better' : 'worse'}, isBetter ? 'numbers' : 'edgebytes')
+                ]),
+                m('i', 'Encoding sizes, in bytes:'),
+                m('p', [
+                    prop('numbers', array().length),
+                    prop('edges', graph().length),
+                    prop('edgebytes', graph().length * 2)
+                ])
             ]),
             m('.graph', [
                 m('h4', 'Graphviz'),
