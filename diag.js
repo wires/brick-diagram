@@ -1,5 +1,9 @@
 const R = require('ramda')
 
+function k (d) {
+    return R.uniq(d.ops).length
+}
+
 function height (d) {
     return Math.ceil(d.ops.length / d.w)
 }
@@ -25,4 +29,4 @@ function graph (d) {
     )(offsets)
 }
 
-module.exports = { height, below, graph }
+module.exports = { k, height, below, graph }

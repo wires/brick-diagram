@@ -7,7 +7,7 @@ const D = require('./diag.js')
 const P = require('./protobuf.js')
 
 const Graph = require('./graph.js')
-
+const Opstack = require('./opstack.js')
 const mkMermaid = require('./mermaid.js')
 
 const data = require('./data.js')
@@ -84,10 +84,18 @@ var UI = {
                     m('button', {onclick: randomDAG(4)}, 'Small'),
                     m('button', {onclick: randomDAG(9)}, 'Big'),
                 ]),
-                prop('width', json().w),
-                prop('height', D.height(json())),
-                prop('cells', json().ops.length),
-                m(Textarea)
+                m('.split', [
+                    m('p', [
+                        prop('width', json().w),
+                        prop('height', D.height(json())),
+                        prop('cells', json().ops.length),        
+                    ]),
+                    m('.opstack', [
+                        m('h4', 'Operator Stack'),
+                        m(Opstack, {d: json()})
+                    ])
+                ]),
+                m(Textarea),
             ]),
             m('.protobuf',[
                 m('h4', 'Protobuf'),
@@ -120,7 +128,7 @@ var UI = {
             m('.graph', [
                 m('h4', 'Graphviz'),
                 m(Graph, {dot: mermaid()})
-            ])
+            ]),
         ])
     }
 }
