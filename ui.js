@@ -14,7 +14,6 @@ const data = require('./data.js')
 
 const initNumbers = data.numbers[0]
 
-const numbers = stream(initNumbers)
 
 // TODO test & fix & spec
 // turns `123\n33\n4` into [1,2,3,3,4]
@@ -30,6 +29,8 @@ const parseOpsString = s => {
 }
 
 const toDict = nrs => ({w: R.head(nrs), ops: R.tail(nrs)})
+
+const numbers = stream(initNumbers)
 
 const array = numbers.map(parseOpsString)
 const json = array.map(toDict)
@@ -72,7 +73,16 @@ const randomDAG = (k) => () => {
 }
 
 var UI = {
-    view: () => {
+    oninit: (vnode) => {
+        // if loaded initially, update the stream (before first drawing)
+        if (vnode.attrs.diag && numbers() !== vnode.attrs.diag) {
+            numbers(vnode.attrs.diag)
+        }
+
+        // update the route when the contents are changed
+        numbers.map(s => m.route.set('/:diag', {diag: s}))
+    },
+    view: (vnode) => {
         let isBetter = array().length < (2 * graph().length)
         return m('.ui', [
             m('.yaml',[

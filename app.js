@@ -5,5 +5,8 @@ const m = require('mithril')
 module.exports = async function (rootId) {
     await ready()
     let root = document.getElementById(rootId)
-    m.mount(root, UI)
+    m.route(root, "/", {
+        "/": UI,
+        "/:diag": UI,
+    })
 }
