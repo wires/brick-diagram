@@ -1,0 +1,27 @@
+{
+  "name": "spec",
+  "version": "1.0.0",
+  "description": "pre-typedefs",
+  "main": "diagram.js",
+  "scripts": {
+    "dev": "concurrently \"lite-server\" \"npm run watch\"",
+    "build": "webpack",
+    "watch": "npm run build -- --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "js-yaml": "^3.12.0",
+    "mithril": "^1.1.6",
+    "protocol-buffers": "^4.0.4",
+    "ramda": "^0.25.0"
+  },
+  "devDependencies": {
+    "concurrently": "^3.6.0",
+    "lite-server": "^2.4.0",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.1.0"
+  }
+}

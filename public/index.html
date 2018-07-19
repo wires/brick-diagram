@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<body>
+<script src="//d3js.org/d3.v4.min.js"></script>
+<script src="https://unpkg.com/viz.js@1.8.0/viz.js" type="javascript/worker"></script>
+<script src="https://unpkg.com/d3-graphviz@1.4.0/build/d3-graphviz.min.js"></script>
+<script src="public/bundle.js"></script>
+
+<div style="padding: 2em;">
+    <h1>Diagram Encoding</h1>
+    <p>Encoding for "operator stacks", that implicitly connect to form a directed graph.</p>
+    <p>First seen (by me) in the Farbrausch demo tools, <a href="http://llg.cubic.org/docs/farbrauschDemos/">see these slides</a>.</p>
+
+    <div id="root"></div>
+
+</div>
+
+
+<style>
+.ui {
+    display: flex;
+}
+.ui textarea {
+    font-family: monospace;
+}
+
+.ui > * {
+    padding: 1em;
+    margin: 1em;
+    /* border: 1px solid gray; */
+}
+pre.pbuf {
+    width: 10em;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+
+.is-better {
+    padding: 8px;
+    border-radius: 6px;
+}
+
+.better {
+    background-color: rgba(0,180,0,0.2);
+}
+.worse {
+    background-color: rgba(180,0,0,0.2);
+}
+
+</style>
+<script>
+    App('root')
+</script>
