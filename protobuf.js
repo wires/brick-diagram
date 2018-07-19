@@ -1,7 +1,4 @@
-const fs = require('fs')
 const protobuf = require('protocol-buffers')
-
-const path = require('path')
 const zlib = require('zlib')
 
 // g.f = id
