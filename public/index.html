@@ -1,66 +1,79 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+
 <body>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="https://unpkg.com/viz.js@1.8.0/viz.js" type="javascript/worker"></script>
-<script src="https://unpkg.com/d3-graphviz@1.4.0/build/d3-graphviz.min.js"></script>
-<script src="bundle.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://unpkg.com/viz.js@1.8.0/viz.js" type="javascript/worker"></script>
+    <script src="https://unpkg.com/d3-graphviz@1.4.0/build/d3-graphviz.min.js"></script>
+    <script src="bundle.js"></script>
 
-<div style="padding: 2em;">
-    <h1>Diagram Encoding</h1>
-    <p>Encoding for "operator stacks", that implicitly connect to form a directed graph.</p>
-    <p>First seen (by me) in the Farbrausch demo tools, <a href="http://llg.cubic.org/docs/farbrauschDemos/">see these slides</a>.</p>
-    <p>
-        The encoding is simple: just a list of numbers <i>ops</i> encoding a "map" or "picture", where the head of the list is the width <i>w</i> of the 
-        "map".
-    </p>
-    <p>
-        The size of the list <i>ops</i> is <i>h * w</i>, for some positive integer <i>h</i>, the height.
-    </p>
-    <div id="root"></div>
+    <div style="padding: 2em;">
+        <h1>Diagram Encoding</h1>
+        <p>Encoding for "operator stacks", that implicitly connect to form a directed graph. First seen (by me) in the Farbrausch
+            demo tools,
+            <a href="http://llg.cubic.org/docs/farbrauschDemos/">see these slides</a>.
+        </p>
+        <p>
+            The encoding is just a list of numbers
+            <i>ops</i> encoding a "map" or "picture", where the head of the list is the width
+            <i>w</i> of the "map". The size of the list
+            <i>ops</i> is
+            <i>h * w</i>, for some positive integer
+            <i>h</i>, the height.
+        </p>
+        <p>
+            When we encounter the number `0` we think of this spot as not inhabited. When two similar coordinates are next to eachover
+            horizontally, then they are joined to one node. When two dissimilar coordinates connect vertically then an arc from top to bottom is inferred.
+        </p>
 
-</div>
+        <h3>Playground</h3>
 
+        <div id="root"></div>
 
-<style>
-.ui {
-    display: flex;
-}
-.ui textarea {
-    font-family: monospace;
-}
-
-.ui > * {
-    padding: 1em;
-    margin: 1em;
-    /* border: 1px solid gray; */
-}
-pre.pbuf {
-    width: 10em;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
+    </div>
 
 
-.is-better {
-    padding: 8px;
-    border-radius: 6px;
-}
+    <style>
+        .ui {
+            display: flex;
+        }
 
-.better {
-    background-color: rgba(0,180,0,0.2);
-}
-.worse {
-    background-color: rgba(180,0,0,0.2);
-}
+        .ui textarea {
+            font-family: monospace;
+        }
 
-.split > * {
-    float:left;
-    margin-right: 1em;
-}
+        .ui>* {
+            padding: 1em;
+            margin: 1em;
+            /* border: 1px solid gray; */
+        }
 
-</style>
-<script>
-    App('root')
-</script>
+        pre.pbuf {
+            width: 10em;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+
+        .is-better {
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .better {
+            background-color: rgba(0, 180, 0, 0.2);
+        }
+
+        .worse {
+            background-color: rgba(180, 0, 0, 0.2);
+        }
+
+        .split>* {
+            float: left;
+            margin-right: 1em;
+        }
+    </style>
+    <script>
+        App('root')
+    </script>
