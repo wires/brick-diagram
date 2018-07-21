@@ -20,7 +20,7 @@ function graph (d) {
         let x = offset % d.w
         let t = below(d, x, y)
         let s = d.ops[offset]
-        return (t && t !== s) ? [[s, t]] : []
+        return (!!t && !!s && t !== s) ? [[s, t]] : []
     }
     return R.compose(
         R.uniq,
